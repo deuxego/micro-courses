@@ -1,0 +1,1 @@
+export type PropType<T, P extends keyof T> = T[P];
