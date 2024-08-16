@@ -1,6 +1,8 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import { ProfileAvatar } from '@/entities/user/server';
+import { signOut, useSession } from 'next-auth/react';
+import { Skeleton } from '@/shared/ui/skeleton';
 import { Button } from '@/shared/ui/button';
 import { LogOut, User } from 'lucide-react';
 import {
@@ -13,8 +15,6 @@ import {
   DropdownMenuTrigger
 } from '@/shared/ui/dropdown-menu';
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
-import { Skeleton } from '@/shared/ui/skeleton';
 
 export const Profile = () => {
   const { data: session, status } = useSession();
@@ -31,10 +31,7 @@ export const Profile = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant={'ghost'} className="h-8 w-8 rounded-full self-center">
-          <Avatar className="h-7 w-7">
-            <AvatarImage src={session?.user?.image!} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <ProfileAvatar profile={session?.user!} />
         </Button>
       </DropdownMenuTrigger>
 
@@ -42,7 +39,7 @@ export const Profile = () => {
         <DropdownMenuLabel>
           <p>My account</p>
           <p className="text-xs text-muted-foreground overflow-hidden text-ellipsis">
-            {session?.user?.name}
+            {session?.user?.name || session?.user.email}
           </p>
         </DropdownMenuLabel>
 
