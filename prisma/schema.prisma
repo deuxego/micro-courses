@@ -8,11 +8,12 @@ generator client {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  name     String?
+  id            String    @id @default(cuid())
+  name          String?
   email         String    @unique
   emailVerified DateTime?
   image         String?
+  role          Role?      @default(USER)
   accounts      Account[]
   sessions      Session[]
 
@@ -57,4 +58,9 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
