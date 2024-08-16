@@ -2,6 +2,7 @@
 
 import { ProfileAvatar } from '@/entities/user/server';
 import { signOut, useSession } from 'next-auth/react';
+import { ROUTES } from '@/shared/constants/routes';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Button } from '@/shared/ui/button';
 import { LogOut, User } from 'lucide-react';
@@ -47,7 +48,7 @@ export const Profile = () => {
 
         <DropdownMenuGroup>
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href={'/'}>
+            <Link href={[ROUTES.PROFILE, session?.user.id].join('/')}>
               <User className="h-4 w-4 mr-2" />
               <span>Profile</span>
             </Link>
