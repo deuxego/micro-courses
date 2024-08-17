@@ -11,5 +11,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     newUser: ROUTES.NEW_USER
   },
   adapter: PrismaAdapter(db) as Adapter,
-  providers: [GitHub]
+  providers: [GitHub],
+  callbacks: {
+    session({ session, token, user }) {
+      return { ...session, id: user.id };
+    }
+  }
 });
