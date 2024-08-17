@@ -17,6 +17,7 @@ import {
 } from '@/shared/ui/form';
 import { z } from 'zod';
 import { useSession } from 'next-auth/react';
+import { useInvalidateProfile } from '@/entities/user/queries';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -31,6 +32,7 @@ type Props = {
 
 export function ProfileForm({ userId, profile }: Props) {
   const updateProfileMutation = useUpdateProfileMutation();
+  const invalidateProfile = useInvalidateProfile();
   const { update: updateSession } = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,6 +45,7 @@ export function ProfileForm({ userId, profile }: Props) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     updateProfileMutation.mutate({ userId, data: values });
     updateSession(values);
+    invalidateProfile(userId);
     form.reset(values);
   }
 
